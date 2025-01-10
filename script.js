@@ -21,33 +21,26 @@ function resetGame() {
 function evaluateGuess(guess) {
     const guessStr = guess.toString();
 
-    // Skaičiuojame correctDigits
     let correctDigits = 0;
     let correctPositions = 0;
 
-    // Sukuriame masyvą, kuris žymės panaudotus skaitmenis
     const secretUsed = Array(secretNumber.length).fill(false);
     const guessUsed = Array(guessStr.length).fill(false);
 
-    // Pirma iteracija - skaičiuojame correctPositions
-    for (let i = 0; i < secretNumber.length; i++) {
-        if (secretNumber[i] === guessStr[i]) {
-            correctPositions++;
-            secretUsed[i] = true;
-            guessUsed[i] = true;
+    for (let i = 0; i < guessStr.length; i++) {
+        for (let j = 0; j < secretNumber.length; j++) {
+            if (!secretUsed[j] && !guessUsed[i] && guessStr[i] === secretNumber[j]) {
+                correctDigits++;
+                secretUsed[j] = true;
+                guessUsed[i] = true;
+                break;
+            }
         }
     }
 
-    // Antra iteracija - skaičiuojame correctDigits
-    for (let i = 0; i < guessStr.length; i++) {
-        if (!guessUsed[i]) {
-            for (let j = 0; j < secretNumber.length; j++) {
-                if (!secretUsed[j] && guessStr[i] === secretNumber[j]) {
-                    correctDigits++;
-                    secretUsed[j] = true;
-                    break;
-                }
-            }
+    for (let i = 0; i < secretNumber.length; i++) {
+        if (secretNumber[i] === guessStr[i]) {
+            correctPositions++;
         }
     }
 
