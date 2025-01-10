@@ -7,12 +7,13 @@ const rand = (min, max) => {
 let secretNumber;
 let guesses = 0;
 const maxGuesses = 10;
+const message = document.getElementById('message');
+message.textContent = `Likę galimi spėjimai: ${maxGuesses - guesses}`;
 
 function resetGame() {
     secretNumber = rand(1000, 9999).toString();
     guesses = 0;
     document.getElementById('results').innerHTML = '';
-    document.getElementById('message').style.display = 'none';
     document.getElementById('guessInput').value = '';
     document.getElementById('guessButton').disabled = false;
     console.log("Paslėptas skaičius: " + secretNumber); // debuginimui
@@ -63,16 +64,15 @@ document.getElementById('guessButton').addEventListener('click', () => {
     resultItem.className = 'list-group-item';
     resultItem.textContent = `Spėjimas: ${guess} - Teisingi skaitmenys: ${result.correctDigits}, Vietoje: ${result.correctPositions}`;
     document.getElementById('results').appendChild(resultItem);
+    message.textContent = `Likę galimi spėjimai: ${maxGuesses - guesses}`;
 
     if (result.correctPositions === 4) {
-        document.getElementById('message').textContent = `Sveikiname! Jūs atspėjote skaičių: ${secretNumber}`;
-        document.getElementById('message').className = 'alert alert-success';
-        document.getElementById('message').style.display = 'block';
+        message.textContent = `Sveikiname! Jūs atspėjote skaičių: ${secretNumber}`;
+        message.className = 'alert alert-success';
         document.getElementById('guessButton').disabled = true;
     } else if (guesses >= maxGuesses) {
-        document.getElementById('message').textContent = `Spėjimai išnaudoti! Teisingas skaičius buvo: ${secretNumber}`;
-        document.getElementById('message').className = 'alert alert-danger';
-        document.getElementById('message').style.display = 'block';
+        message.textContent = `Spėjimai išnaudoti! Teisingas skaičius buvo: ${secretNumber}`;
+        message.className = 'alert alert-danger';
         document.getElementById('guessButton').disabled = true;
     }
 
